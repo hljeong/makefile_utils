@@ -34,7 +34,7 @@ venv-list-deps: venv-create venv-venv-requirements-defined
 	@ . ./$(VENV_DIR)/bin/activate && python -m pip freeze >$(VENV_REQUIREMENTS)
 
 venv-setup: venv-clean venv-venv-dir-defined venv-venv-activate-defined venv-python-defined
-	@ echo -n 'setting up venv...' && make venv-install-deps && echo "done"
+	@ echo 'setting up venv...' && make venv-install-deps && echo "done setting up venv"
 	@ # venv-setup is supposed to be a top level target called by user only, so
 	@ # it is assumed we are already in $(CURDIR)
 	@ echo 'to activate venv, run: source $(VENV_ACTIVATE)'
