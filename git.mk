@@ -8,7 +8,7 @@ git-hook-git-hook-dir-defined:
 git-hook-apply:
 	@ [ -d './$(GIT_HOOK_DIR)' ] || (echo './$(GIT_HOOK_DIR) does not exist, no git hooks will be installed')
 	@ \
-	[ -n "$$(ls -A ./$(GIT_HOOK_DIR))" ] || (echo './$(GIT_HOOK_DIR) is empty, no git hooks will be installed'); \
+	[ -d './$(GIT_HOOK_DIR)' ] && ([ -n "$$(ls -A ./$(GIT_HOOK_DIR) 2>/dev/null)" ] || (echo './$(GIT_HOOK_DIR) is empty, no git hooks will be installed')); \
 	for hook in $(notdir $(wildcard ./$(GIT_HOOK_DIR)/*)); do \
 		if [ -d "./$(GIT_HOOK_DIR)/$$hook" ]; then \
 			echo "cannot apply git hook for $$hook: ./$(GIT_HOOK_DIR)/$$hook is a directory"; \
