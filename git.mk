@@ -1,2 +1,2 @@
 include git-hooks.mk
-include git-submodules.mk
+include git-submodule.mk
