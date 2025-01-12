@@ -33,6 +33,6 @@ venv-install-deps: venv-create venv-venv-requirements-defined
 venv-list-deps: venv-create venv-venv-requirements-defined
 	@ . ./$(VENV_DIR)/bin/activate && python -m pip freeze >$(VENV_REQUIREMENTS)
 
-venv-setup: venv-venv-dir-defined venv-venv-activate-defined venv-python-defined
+venv-setup: venv-clean venv-venv-dir-defined venv-venv-activate-defined venv-python-defined
 	@ echo -n 'setting up venv...' && make venv-install-deps && echo "done"
 	@ echo 'to activate venv, run: source activate'
