@@ -17,7 +17,7 @@ venv-venv-requirements-defined:
 	@ [ -n '$(VENV_REQUIREMENTS)' ] || (echo 'VENV_REQUIREMENTS not specified in makefile'; exit 1)
 
 venv-active:
-	@ [ -n "$$VIRTUAL_ENV" ] || (echo 'venv not active: run: source activate'; exit 1)
+	@ [ -n "$$VIRTUAL_ENV" ] || (echo 'venv not active, run: cd $(CURDIR); source activate; cd -'; exit 1)
 
 venv-create: 
 	@ echo 'make venv-install-deps && source ./$(VENV_DIR)/bin/activate' >./$(VENV_ACTIVATE)
