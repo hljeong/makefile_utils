@@ -20,7 +20,7 @@ venv-active: venv-venv-activate-defined
 	@ [ -n "$$VIRTUAL_ENV" ] || (echo 'venv not active, run: cd $(CURDIR); source ./$(VENV_ACTIVATE); cd -'; exit 1)
 
 venv-create: 
-	@ echo 'cd $(CURDIR); make venv-install-deps && . ./$(VENV_DIR)/bin/activate; cd - >/dev/null' >./$(VENV_ACTIVATE)
+	@ echo 'make venv-install-deps && . ./$(VENV_DIR)/bin/activate' >./$(VENV_ACTIVATE)
 	@ [ -d ./$(VENV_DIR) ] || $(PYTHON) -m venv ./$(VENV_DIR)
 
 venv-clean: venv-venv-dir-defined
