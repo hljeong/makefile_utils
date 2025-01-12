@@ -2,7 +2,7 @@ VENV_DIR = .venv
 VENV_ACTIVATE = activate
 VENV_REQUIREMENTS = requirements.txt
 
-.PHONY: venv-create venv-clean venv-install-deps venv-list-deps venv-setup venv-venv-dir-defined venv-venv-activate-defined venv-venv-requirements-defined venv-python-defined
+.PHONY: venv-active venv-create venv-clean venv-install-deps venv-list-deps venv-setup venv-venv-dir-defined venv-venv-activate-defined venv-venv-requirements-defined venv-python-defined
 
 venv-python-defined:
 	@ [ -n '$(PYTHON)' ] || (echo 'PYTHON not specified in makefile'; exit 1)
@@ -15,6 +15,9 @@ venv-venv-activate-defined:
 
 venv-venv-requirements-defined:
 	@ [ -n '$(VENV_REQUIREMENTS)' ] || (echo 'VENV_REQUIREMENTS not specified in makefile'; exit 1)
+
+venv-active:
+	@ [ -n "$$VIRTUAL_ENV" ] || (echo 'venv not active: run: source activate'; exit 1)
 
 venv-create: 
 	@ echo 'make venv-install-deps && source ./$(VENV_DIR)/bin/activate' >./$(VENV_ACTIVATE)
