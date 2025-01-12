@@ -2,7 +2,7 @@ VENV_DIR = .venv
 VENV_ACTIVATE = activate
 VENV_REQUIREMENTS = requirements.txt
 
-.PHONY: venv-active venv-create venv-clean venv-install-deps venv-list-deps venv-setup venv-venv-dir-defined venv-venv-activate-defined venv-venv-requirements-defined venv-python-defined
+.PHONY: venv-active venv-create venv-clean venv-install-deps venv-setup venv-venv-dir-defined venv-venv-activate-defined venv-venv-requirements-defined venv-python-defined
 
 venv-python-defined:
 	@ [ -n '$(PYTHON)' ] || (echo 'PYTHON not specified in makefile'; exit 1)
@@ -34,9 +34,6 @@ venv-install-deps: venv-create venv-venv-requirements-defined
 			[ -f './$(VENV_DIR)/requirements.md5' ] && [ -n $$(md5sum './$(VENV_REQUIREMENTS)' | diff - ./$(VENV_DIR)/requirements.md5) ] || python -m pip install -r ./$(VENV_REQUIREMENTS) && md5sum './$(VENV_REQUIREMENTS)' >./$(VENV_DIR)/requirements.md5; \
 		fi \
 	)
-
-venv-list-deps: venv-create venv-venv-requirements-defined
-	@ . ./$(VENV_DIR)/bin/activate && python -m pip freeze >$(VENV_REQUIREMENTS)
 
 venv-setup: venv-clean venv-venv-dir-defined venv-venv-activate-defined venv-python-defined
 	@ echo 'setting up venv...' && make venv-install-deps && echo "done setting up venv"
