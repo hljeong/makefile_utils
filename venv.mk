@@ -16,8 +16,8 @@ venv-venv-activate-defined:
 venv-venv-requirements-defined:
 	@ [ -n '$(VENV_REQUIREMENTS)' ] || (echo 'VENV_REQUIREMENTS not specified in makefile'; exit 1)
 
-venv-active:
-	@ [ -n "$$VIRTUAL_ENV" ] || (echo 'venv not active, run: cd $(CURDIR); source activate; cd -'; exit 1)
+venv-active: venv-venv-activate-defined
+	@ [ -n "$$VIRTUAL_ENV" ] || (echo 'venv not active, run: cd $(CURDIR); source ./$(VENV_ACTIVATE); cd -'; exit 1)
 
 venv-create: 
 	@ echo 'make venv-install-deps && source ./$(VENV_DIR)/bin/activate' >./$(VENV_ACTIVATE)
@@ -35,4 +35,6 @@ venv-list-deps: venv-create venv-venv-requirements-defined
 
 venv-setup: venv-clean venv-venv-dir-defined venv-venv-activate-defined venv-python-defined
 	@ echo -n 'setting up venv...' && make venv-install-deps && echo "done"
-	@ echo 'to activate venv, run: source activate'
+	@ # venv-setup is supposed to be a top level target called by user only, so
+	@ # it is assumed we are already in $(CURDIR)
+	@ echo 'to activate venv, run: source $(VENV_ACTIVATE)'
