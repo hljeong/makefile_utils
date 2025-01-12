@@ -28,7 +28,7 @@ venv-clean: venv-venv-dir-defined
 	@ rm -rf $(VENV_DIR)
 
 venv-install-deps: venv-create venv-venv-requirements-defined
-	@ . ./$(VENV_DIR)/bin/activate && (if [ -f ./'$(VENV_REQUIREMENTS)' ]; then python -m pip install -r ./$(VENV_REQUIREMENTS); fi)
+	@ . ./$(VENV_DIR)/bin/activate && (if [ -f ./'$(VENV_REQUIREMENTS)' ]; then python -m pip install -qr ./$(VENV_REQUIREMENTS); fi)
 
 venv-list-deps: venv-create venv-venv-requirements-defined
 	@ . ./$(VENV_DIR)/bin/activate && python -m pip freeze >$(VENV_REQUIREMENTS)
