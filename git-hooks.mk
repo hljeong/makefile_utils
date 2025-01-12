@@ -1,8 +1,8 @@
-GITHOOKS_DIR = .githooks
+GITHOOKS_DIR = .git-hooks
 
-.PHONY: githooks-apply
+.PHONY: git-hooks-apply
 
-githooks-apply:
+git-hooks-apply:
 	@[ -n '$(GITHOOKS_DIR)' ] || (echo 'GITHOOKS_DIR not specified in makefile'; exit 1)
 	@for hook in $(notdir $(wildcard ./$(GITHOOKS_DIR)/*)); do \
 		echo "replacing existing hook: $$hook" && \
