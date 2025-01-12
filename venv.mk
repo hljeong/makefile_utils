@@ -20,7 +20,7 @@ venv-active: venv-venv-activate-defined
 	@ [ -n "$$VIRTUAL_ENV" ] || (echo 'venv not active, run: cd $(CURDIR); source ./$(VENV_ACTIVATE); cd -'; exit 1)
 
 venv-create: 
-	@ echo 'make venv-install-deps && . ./$(VENV_DIR)/bin/activate' >./$(VENV_ACTIVATE)
+	@ echo 'cd $(CURDIR); make venv-install-deps && . ./$(VENV_DIR)/bin/activate; cd - >/dev/null' >./$(VENV_ACTIVATE)
 	@ [ -d ./$(VENV_DIR) ] || $(PYTHON) -m venv ./$(VENV_DIR)
 
 venv-clean: venv-venv-dir-defined
@@ -28,7 +28,12 @@ venv-clean: venv-venv-dir-defined
 	@ rm -rf $(VENV_DIR)
 
 venv-install-deps: venv-create venv-venv-requirements-defined
-	@ . ./$(VENV_DIR)/bin/activate && (if [ -f ./'$(VENV_REQUIREMENTS)' ]; then python -m pip install -qr ./$(VENV_REQUIREMENTS); fi)
+	@ \
+	. ./$(VENV_DIR)/bin/activate && ( \
+		if [ -f './$(VENV_REQUIREMENTS)' ]; then \
+			[ -f './$(VENV_DIR)/requirements.md5' ] && [ -n $$(md5sum './$(VENV_REQUIREMENTS)' | diff - ./$(VENV_DIR)/requirements.md5) ] || python -m pip install -r ./$(VENV_REQUIREMENTS) && md5sum './$(VENV_REQUIREMENTS)' >./$(VENV_DIR)/requirements.md5; \
+		fi \
+	)
 
 venv-list-deps: venv-create venv-venv-requirements-defined
 	@ . ./$(VENV_DIR)/bin/activate && python -m pip freeze >$(VENV_REQUIREMENTS)
