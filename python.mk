@@ -1,6 +1,6 @@
 .PHONY: python-clean python-python-defined
 
-python-clean:
+python-clean: python-python-defined
 	@ $(PYTHON) -Bc "import pathlib; [p.unlink() for p in pathlib.Path('.').rglob('*.py[co]')]"  # delete .pyc and .pyo files
 	@ $(PYTHON) -Bc "import pathlib; [p.rmdir() for p in pathlib.Path('.').rglob('__pycache__')]"  # delete __pycache__ directories
 
